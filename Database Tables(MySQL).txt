@@ -1,0 +1,51 @@
+create table customerAccount
+(
+customerId varchar(20) primary key,
+customerName varchar(50),
+customerMobileNumber varchar(10),
+customerEmailId varchar(50),
+customerPassword varchar(20)
+);
+
+create table windowCombination
+(
+productNumber varchar(20),
+productType varchar2(50),
+standardSize char(5),
+productRate int,
+stock int
+);
+
+insert into windowCombination values('ALU101', 'ClearGlass', '3x4', 2940, 100);
+insert into windowCombination values('ALU102', 'FrostedGlass', '4x4', 3920, 100);
+insert into windowCombination values('ALU103', 'TintedGlass', '4x6', 5880, 100);
+insert into windowCombination values('ALU104', 'ReflectiveGlass', '5x5', 6125, 100);
+insert into windowCombination values('ALU105', 'LaminatedGlass', '5x6', 7350, 100);
+
+create table orders
+(
+orderNumber varchar(20),
+orderDate date,
+customerId varchar(20),
+productNumber varchar(20),
+qty int,
+productRate int
+);
+
+
+create table counters
+(
+cur_val int,
+intial char(2), 
+ctr_name varchar(50)
+);
+
+insert into counters values(0, 'CU', 'customer');
+insert into counters values(0, 'OR', 'orders');
+
+
+create view invoices as
+select orderNumber, orderDate, orders.customerId, orders.productNumber, qty, windowCombination.productRate*qty as amount
+from orders, windowCombination where orders.productNumber = windowCombination.productNumber;
+
+

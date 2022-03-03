@@ -1,0 +1,142 @@
+
+
+
+1***
+create table customerAccount
+(
+customerId varchar2(20) primary key,
+customerName varchar2(50),
+customerMobileNumber varchar2(10),
+customerEmailId varchar2(50),
+customerPassword varchar2(20)
+);
+
+
+create table counters
+(
+cur_val int,
+initial char(2), 
+ctr_name varchar(50)
+);
+
+
+2***
+create table windowType
+(
+type varchar2(20)
+);
+
+
+{insert into windowType values('Sliding');
+insert into windowType values('Tilt And Turn');
+insert into windowType values('Casement');
+insert into windowType values('Fixed');}
+
+
+
+3***
+create table frameDetails
+(
+frameMaterials varchar2(20)
+frameRate number(10)
+);
+
+
+{insert into frameDetails values('Allimunium', 250);
+insert into frameDetails values('PVC', 300);}
+
+
+4***
+create table glassDetails
+(
+glassType varchar2(20),
+glassRate number(10)
+);
+
+
+insert into glassDetails values('Clear', 110);
+insert into glassDetails values('Frosted', 125);
+insert into glassDetails values('Tinted', 110);
+insert into glassDetails values('Reflective', 150);
+insert into glassDetails values('Laminated', 180);
+
+
+
+5***
+
+create table customerDetails
+(
+customerId number(20) primary key,
+customerName varchar2(50),
+customerAddress varchar2(50),
+customerCity varchar2(20),
+customerPincode number(6),
+customerMobileNumber number(10)
+);
+
+
+-------------------------------------------------------
+
+6***
+create table Orders
+(
+orderNumber varchar2(20) primary key,
+orderDate date not null,
+deliveryDate date not null,
+customerId number(20),
+FOREIGN KEY (customerId) REFERENCES customerDetails(customerId)
+);
+
+7***
+create table orderDetails
+(
+orderNumber number(20),
+windowCode varchar2(10),
+windowQuantity number(10),
+primary key(orderNumber,windowCode)
+);
+
+8***
+create table customerPaymentDetails
+(
+TransactionId varchar2(10) primary key,
+customerId number(20),
+nameOnCard varchar2(20),
+amountPaid number(10),
+cardNumber number(16) not null check(length(cardNumber)=16),
+FOREIGN KEY (customerId) REFERENCES customerDetails(customerId)
+);
+
+9***
+create table windowDetails
+(
+windowCode varchar2(10) primary key,
+windowStandardSize varchar2(10) unique not null,
+rate number(10) not null
+);
+
+10***
+create table cancelledOrders
+(
+orderNumber varchar2(20) primary key,
+customerId number(20),
+paidAmount number(10),
+penaltyAmount number(10),
+refundAmount number(10),
+reason varchar2(50),
+foreign key(customerId) references customerDetails(customerId)
+);
+
+11***
+create table totalOrders
+(
+orderNumber varchar2(10) primary key,
+customerId number(20),
+w3x4 varchar2(4),
+w3x5 varchar2(4),
+w4x4 varchar2(4),
+w4x5 varchar2(4),
+w4x6 varchar2(4),
+w5x5 varchar2(4),
+foreign key(customerId) references customerDetails(customerId)
+);
